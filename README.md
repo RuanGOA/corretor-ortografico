@@ -4,7 +4,7 @@ Projeto feito para o curso de C, ministrado por Eanes Torres durante a pausa nas
 
 ## **TaskList**
 
-[ ] Verificar argumentos na linha de comando
+- [ ] Verificar argumentos na linha de comando
 
 * Se for digitado algum parâmetro, é um diretório
 * Se não, perguntar ao usuário
