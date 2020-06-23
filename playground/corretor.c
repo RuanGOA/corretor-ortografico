@@ -47,83 +47,26 @@ int main(int argc, char *argv[]){
 
         strcpy(textoCompilado,arquivoCompleto);
 
+////////////////////	
+				char *token = strtok(textoCompilado," ");
 
-        liberaArray (texto, nPalavras);
-        printf("\n" RED_BACKGROUND "String com todo o texto junto" RESET "\n");
-        printf("Arquivo com %li caracteres completo: \n%s \n", strlen(arquivoCompleto),arquivoCompleto);
-        /*
-        char *palavras[82]; 
-        *(palavras) = "palavra1";
-        *(palavras+1) = "pal2";
-        
-        for(size_t i = 0; i < 2; i++){
-            printf("%s \n", *(palavras+i)); 
-        }
-        */
-        
-        //Parte que tokeniza o texto       
-        printf("\n" RED_BACKGROUND "Testes com tokenização" RESET "\n");
+        char stringzona[strlen(arquivoCompleto)];
+        strcpy(stringzona,arquivoCompleto);
 
-        // Essas duas linhas vao ser necessárias no teste 
-        // de armazenar as palavras do texto em um array
-        char textoTeste[strlen(arquivoCompleto)];
-        strcpy(textoTeste,arquivoCompleto);
-        
-        char *token = "";
-        token = strtok(textoCompilado," \n");
-        size_t contadorDePalavras = 0;
-        size_t tamanhoMaiorPalavra = 0;
+				char *words[50], sep[4] = " .\n";
 
-        while( token != NULL ) {
-            if(strlen(token) > tamanhoMaiorPalavra){
-                tamanhoMaiorPalavra = strlen(token);
-            }
-            printf( "token: %s\n", token);
-            token = strtok(NULL, " \n");
-            contadorDePalavras++;
+				token = strtok(stringzona, sep);
 
-        }
-        char textoTokenizado[contadorDePalavras+1][tamanhoMaiorPalavra+1];
+				size_t i = 0;
+				while(token != NULL) {
+					words[i++] = token;
+					token = strtok(NULL, sep);
+				}
 
-        printf("O strtok altera a string original: %s \n", textoCompilado); // por isso o textoTeste lá emcima
-        printf("Ultimo token: %s \n", token);
-
-        // Esse é o teste de armazenar as palavras do texto em um array
-        printf("\n" RED_BACKGROUND "Testes tentando criar um array com as palavras do texto" RESET "\n");
-
-        token = strtok(textoTeste," \n");// reiniciando o token
-        printf("Reiniciando o token: %s\n", token);
-        /*
-        //Inserindo as coisas manualmente
-        strcpy(textoTokenizado[0], token);
-        printf("txtTokenizado: %s\n", textoTokenizado[0]);
-        
-        token = strtok(NULL," \n");
-        strcpy(textoTokenizado[1], token);
-        printf("txtTokenizado: %s\n", textoTokenizado[1]);
-
-        */
-        printf("\n" RED_BACKGROUND "Essa é a parte que não funciona" RESET "\n");
-
-
-        // Esse while tokeniza e armazena num array
-        size_t j = 0;
-
-        while( token != NULL ) { 
-            strcpy(textoTokenizado[j], token);
-
-            printf("token: %s\n", token);  
-            token = strtok(NULL, " \n");
-            printf("txtTokenizado: %s\n", textoTokenizado[j]);
-            j++;
-        }
-
-        printf("\n" RED_BACKGROUND "Texto tokenizado" RESET "\n");
-        for(size_t i = 0; i < contadorDePalavras; i++)
-        {
-            printf("txtTokenizado: %s\n", textoTokenizado[i]);
-
-        }
+				printf("\n" RED_BACKGROUND "Texto tokenizado" RESET "\n");
+				for(size_t j = 0; j < i; j++) {
+					printf("%s\n", words[j]);
+				}
        
     }else{
         char texto[LIMITE_MAX_DO_TEXTO] = "";
