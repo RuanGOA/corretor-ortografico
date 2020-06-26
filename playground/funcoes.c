@@ -80,3 +80,45 @@ void liberaArray (char **words, int rows){
     }
     free(words);
 }
+
+/*
+    Recebe um array de strings, concatena essas strings em um buffer
+    e faz uma cópia na string destino
+*/
+void agrupaFrases(char **frases, int nFrases, char *stringDestino)
+{
+    char buffer[comprimentoDaLista] = "";
+
+    for (size_t i = 0; i < nFrases; i++)
+    {
+        strcat(buffer, frases[i]);
+    }
+    strcpy(stringDestino, buffer);    
+}
+
+/*
+    Recebe uma string com texto e a divide em palavras
+    As palavras são salvas em um array passado como parâmetro
+    Retorna a quantidade de palavras
+*/
+int tokenizaTexto(char *texto, char **destino)
+{
+    const char separadores[8] = " ,:!?.\n";
+    char *token = strtok(texto, separadores);
+    
+    
+    size_t nPalavras = 0;
+    while(token != NULL) {
+        destino[nPalavras++] = token;
+        token = strtok(NULL, separadores);
+    }
+
+    return nPalavras;
+}
+
+
+
+
+
+
+

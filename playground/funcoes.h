@@ -11,5 +11,7 @@
 char **pegaPalavras (FILE *fp, int *n);
 char **pegaFrases (FILE *fp, int *n);
 void liberaArray (char** palavras, int linhas);
+void agrupaFrases(char **frases, int nFrases, char *stringDestino);
+int tokenizaTexto(char *texto, char **destino);
 
 #endif
