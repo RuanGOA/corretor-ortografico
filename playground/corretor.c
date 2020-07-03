@@ -9,33 +9,32 @@
 #define MAGENTA_BACKGROUND "\e[45m"
 #define RED_TEXT "\e[0;31m"
 #define RESET "\e[0m"
-
+#define QUANT_MAX_PALAVRAS 50
 
 int main(int argc, char *argv[]){
-    char textoCompleto[comprimentoDaLista];
+
+    char textoCompleto[QUANT_MAX_CARACTERES];
 
     if(argc > 1){
-        //Prepara variáveis para usar a função de Eanes modificada
-        FILE *arquivo = fopen (argv[1], "r");
-        /* Colocar verificações para ver se deu erro na leitura do arquivo */
 
-        
-        int nPalavras = 0;
-        char **texto = NULL;
-        texto = pegaFrases(arquivo, &nPalavras);
-        fclose(arquivo);
-        
-        /* Vê que a função estabelece um tamanho máximo para as palavras/linhas  */
-        printf(RED_BACKGROUND "Coisas Lidas pela funçao de Eanes" RESET "\n");
+        FILE *arqTexto = fopen (argv[1], "r");
+        int nLinhas = 0;
+        char **texto;
 
-        printf("Quantidade de Linhas: %d\n", nPalavras);
-
-        for (int i = 0; i < nPalavras; i++) {
-            printf("%s \n", texto[i]);
+        if (!arqTexto) { /* valida a abertura do arquivo */
+            fprintf (stderr, "erro: abertura do arquivo falhou.\n");
+            return 1;
         }
 
-        agrupaFrases(texto, nPalavras, textoCompleto);
-        liberaArray(texto, nPalavras); 
+        if (!(texto = pegaFrases (arqTexto, &nLinhas))) {
+            fprintf (stderr, "erro: pegaPalavras retornou NULL.\n");
+            return 1;
+        }
+        
+        fclose(arqTexto);
+        
+        agrupaFrases(texto, nLinhas, textoCompleto);
+        liberaArray(texto, nLinhas);
 
     }else{
         printf(BLUE_BACKGROUND  "Digite o seu texto:" RESET "\n" );
@@ -43,13 +42,32 @@ int main(int argc, char *argv[]){
     }
 
     /* Tokenizar texto */
-    char *palavras[50];
+    char *palavras[QUANT_MAX_PALAVRAS];
     int quantPalavras = tokenizaTexto(textoCompleto, palavras);
 
-    printf("\n" RED_BACKGROUND "Texto tokenizado" RESET "\n");
-    for(size_t j = 0; j < quantPalavras; j++) {
-        printf("%s\n", palavras[j]);
+    /* Ler dicionário  */  
+    FILE *arqDicionario = fopen(argv[2], "r");
+    char **dicionario;
+    int nPalavrasDic = 0;
+
+    if (!arqDicionario) { /* valida a abertura do arquivo */
+        fprintf (stderr, "erro: abertura do arquivo falhou.\n");
+        return 1;
     }
+
+    if (!(dicionario = pegaPalavras (arqDicionario, &nPalavrasDic))) {
+        fprintf (stderr, "erro: pegaPalavras retornou NULL.\n");
+        return 1;
+    }
+
+    printf("\n" RED_BACKGROUND "Tamanho do Dicionário: %d" RESET "\n", nPalavrasDic);
+    printf("%s \n", dicionario[0]); 
+    printf("%s \n", dicionario[1]);
+    printf("%s \n", dicionario[2]);  
+  
+
+    fclose(arqDicionario);    
+    liberaArray(dicionario,nPalavrasDic);
 
     return EXIT_SUCCESS;
 }

@@ -1,5 +1,23 @@
 #include "funcoes.h"
 
+#define NAO_ENCONTRADO 0
+#define ENCONTRADO 1
+
+
+void pegaTexto(FILE *arquivo, int *nPalavras, char **destino)
+{
+    char palavrasDoTexto[comprimentoDasPalavras];
+    int i = 0;
+    
+    while (fscanf(arquivo, "%s", palavrasDoTexto) != EOF){
+        destino[i++] = palavrasDoTexto;
+        printf("dest: %s | palavr: %s \n", destino[i-1], palavrasDoTexto);
+    }
+
+    *nPalavras = i;
+}
+
+
 /* Usa essa funcao quando for ler o texto*/
 char **pegaFrases (FILE *fp, int *n) {
 
@@ -15,14 +33,14 @@ char **pegaFrases (FILE *fp, int *n) {
     while (fgets (buf, comprimentoDasPalavras + 1, fp)) {
 
         size_t wordlen = strlen (buf);  
-        /*
-        if (buf[wordlen - 1] == '\n')  
-            buf[--wordlen] = '\x20';
-        */
+        
+        //if (buf[wordlen - 1] == '\n')  
+         //   buf[--wordlen] = '\x20';
+        
        
-        palavras[(*n)++] = strdup (buf);   
+        palavras[(*n)++] = strdup (buf);
 
-        if (*n == maxlen) { 
+        if (*n == maxlen) {
             void *tmp = realloc (palavras, maxlen * 2 * sizeof *palavras);
             if (!tmp) {
                 fprintf (stderr, "pegaPalavras() realloc: memória exaurida.\n");
@@ -36,6 +54,7 @@ char **pegaFrases (FILE *fp, int *n) {
 
     return palavras;
 }
+
 /* Usa essa funcao quando for ler o dicionário*/
 char **pegaPalavras (FILE *fp, int *n) {
 
@@ -89,7 +108,7 @@ void agrupaFrases(char **frases, int nFrases, char *stringDestino)
 {
     char buffer[comprimentoDaLista] = "";
 
-    for (size_t i = 0; i < nFrases; i++)
+    for (int i = 0; i < nFrases; i++)
     {
         strcat(buffer, frases[i]);
     }
@@ -116,9 +135,64 @@ int tokenizaTexto(char *texto, char **destino)
     return nPalavras;
 }
 
+/*
+	Compara um array de palavras com as palavras de um dicionário.
+	Retorna um array com 0 na mesma posição de palavras que não foram
+	encontradas no dicionário e 1 para para as palavras encontradas
+*/
+int *buscaNoDicionario(char **palavras, int nPalavras , char **dicionario, int tamanhoDicionario)
+{
+    int inicio = 0;
+	int *resultadoDasBuscas = NULL;
+    if (!(resultadoDasBuscas = calloc (nPalavras, sizeof(int)))) {
+        fprintf (stderr, "pegaPalavras() erro: memória virtual exaurida.\n");
+        return NULL;
+    }
+	//implementar busca binária
+	//strcmp(str1,str2)  1 para str1 > str2 | -1 para str1 < str2z
+	for(size_t i = 0; i < nPalavras; ++i)
+	{  
+        printf("pal: %s, dic: %s, tamD: %d \n", *(palavras + i), *dicionario, tamanhoDicionario) ;
+		if(buscaBinariaString(*(palavras + i), dicionario, &inicio, &tamanhoDicionario) != NAO_ENCONTRADO)
+		{
+			resultadoDasBuscas[i] = ENCONTRADO;
+		} 
+	}
 
 
+    return resultadoDasBuscas;
 
+
+}
+
+int buscaBinariaString(char *palavra, char **dicionario, int *inicioDicionario, int *fimDicionario)
+{
+	int metadeDoDicionario = *fimDicionario / 2;
+    
+    //printf("iniDic: %d | metDict: %d | fimDict: %d \n", *inicioDicionario, metadeDoDicionario, *fimDicionario);
+    printf("palavra: %s , dict: %s , comp: %d \n",palavra, dicionario[metadeDoDicionario], strcmp(palavra, dicionario[metadeDoDicionario]));
+
+	if(strcmp(palavra, dicionario[metadeDoDicionario]) == 0)
+	{
+		return metadeDoDicionario;
+	}
+	else if(strcmp(palavra, dicionario[metadeDoDicionario]) > 1)
+	{
+        puts("essa linha\n");
+        *inicioDicionario = metadeDoDicionario + 1;
+		return buscaBinariaString(palavra, dicionario, inicioDicionario, fimDicionario);
+	}
+	else if(strcmp(palavra, dicionario[metadeDoDicionario]) < -1)
+    {
+        *fimDicionario = metadeDoDicionario - 1;
+        printf("inicio: %d | fim: %d \n", *inicioDicionario, *fimDicionario);
+        return buscaBinariaString(palavra, dicionario, inicioDicionario, fimDicionario);
+    }else{
+        return 0;
+    }
+
+	return 0;
+}
 
 
 
