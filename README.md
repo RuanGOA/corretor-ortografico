@@ -4,16 +4,16 @@ Projeto feito para o curso de C, ministrado por Eanes Torres durante a pausa nas
 
 ## **TaskList**
 
-- [ ] Verificar argumentos na linha de comando
+- [x] Verificar argumentos na linha de comando
 
 * Se for digitado algum parâmetro, é um diretório
 * Se não, perguntar ao usuário
 
-- [ ] Dividir o texto em palavras
+- [x] Dividir o texto em palavras
 
 * Criar um array com essas palavras
 
-- [ ] Carregar dicionário de palavras corretas
+- [x] Carregar dicionário de palavras corretas
 
 * Carregar TODO o dicionário
 * Carregar apenas parte do dicionário
@@ -23,7 +23,7 @@ Projeto feito para o curso de C, ministrado por Eanes Torres durante a pausa nas
 * Se estiver, passa para a próxima
 * Se não, jogue em um array de palavras erradas
 
-- [ ] Implementar uma função para Levenshtein, retornando um indice de similaridade
+- [x] Implementar uma função para Levenshtein, retornando um indice de similaridade
 
 - [ ] Criar uma fila de prioridade, usando o coeficiente obtidos
 
