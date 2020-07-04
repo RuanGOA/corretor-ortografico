@@ -37,7 +37,7 @@ size_t levenshteinCalc(const char *a, const size_t aLen, const char *b, const si
   // Loop.
   while (bIndex < bLen) {
     code = b[bIndex];
-    res = distance = bIndex++;
+    res = aDist = bIndex++;
     aIndex = SIZE_MAX;
 
     while (++aIndex < aLen) {
@@ -60,7 +60,7 @@ double levenshtein(const char *a, const char *b) {
   const size_t aLen = strlen(a);
   const size_t bLen = strlen(b);
 	
-	const size_t levenshteinDist = levenshtein_n(a, aLen, b, bLen);
+	const size_t levenshteinDist = levenshteinCalc(a, aLen, b, bLen);
 
 	float maiorTamanho = max(bLen, aLen);
 
