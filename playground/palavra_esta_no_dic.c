@@ -2,38 +2,56 @@
 #include <stdlib.h>
 #include <string.h>
 
-int * verificaFrase(char **palavras, int tamanho_palavras, char **dicionario, int tamanho_dicionario, int *palavras_verificadas) {
+/*
+    Verifica se palavras tokenizadas de uma frase
+    pertencem ou não a um dicionário. Retornando um array
+    com a mesma quantidade de posições que a lista de tokens
+    possui. Para cada posição representando uma palavra, os seguintes dados:
+        1 - a palavra existe no dicionario
+        2 - a palavra nao existe no dicionario
+*/
+int * verificaFrase(char **palavras, int tamanho_palavras, char const **dicionario, int tamanho_dicionario, int *palavras_verificadas) {
 
-    size_t j; int achou;
+    int achou;
     for(size_t i = 0; i < tamanho_palavras; i++) {
-        printf("--- \n");
-        j = 0; achou = 0;
-        while(j < tamanho_dicionario && achou == 0) {
-            int comp = strcmp(palavras[i], dicionario[j]);
-            if(comp == 0) {
-                achou = 1;
-            }
 
-            j++;
-        }
+        achou = verificaPalavra(palavras[i], dicionario, tamanho_dicionario);
 
         palavras_verificadas[i] = achou;
-    }
-
-    for(int k = 0; k < tamanho_palavras; k++){
-        printf("%d - \n", palavras_verificadas[k]);
     }
 
     return palavras_verificadas;
 }
 
+/*
+    Função auxiliar. Verifica se uma palavra está ou não em um dicionario.
+        1 - a palavra existe no dicionario
+        2 - a palavra nao existe no dicionario
+*/
+int verificaPalavra(char *palavra, char const **dicionario, int tamanho_dicionario) {
+    size_t j = 0, achou = 0;
+    while(j < tamanho_dicionario && achou == 0) {
+        int comp = strcmp(palavra, dicionario[j]);
+        if(comp == 0) {
+            achou = 1;
+        }
+
+        j++;
+    }
+
+    return achou;
+}
+
+///////////////////////////////
+//TESTE
+///////////////////////////////
 int main(void) {
 
     char *palavras[3] = {"abobrinha", "abobora", "aboborasso"};
     size_t tamanho_palavras = sizeof(palavras)/sizeof(palavras[0]);
     int palavras_veri[tamanho_palavras];
 
-    char *dicionario[1] = {"abobora"};  
+    const char *dicionario[1] = {"abobora"};  
     size_t tamanho_dicionario = sizeof(dicionario)/sizeof(dicionario[0]);
 
     verificaFrase(palavras, tamanho_palavras, dicionario, tamanho_dicionario, palavras_veri);
