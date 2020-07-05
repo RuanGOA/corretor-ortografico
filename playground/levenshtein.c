@@ -1,83 +1,61 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 
 /*
- * Retorna o inteiro que representa a diferenca entre uma palavra e, e uma palavra b
- * Veja <https://en.wikipedia.org/wiki/Levenshtein_distance> para mais informações.
+ * Retorna um coeficiente da semelhança de palavras usando o algoritmo
+ * "distancia de Levenshtein", e fazendo calculo de porcentagem.
  */
-size_t levenshteinCalc(const char *a, const size_t aLen, const char *b, const size_t bLen) {
-  // otimizações
-  if (a == b) {
-    return 0;
-  }
+float levenshtein(const char *palavra1, const char *palavra2) {
 
-  if (aLen == 0) {
-    return bLen;
-  }
+  const int tamanho_palavra1 = strlen(palavra1), tamanho_palavra2 = strlen(palavra2);
 
-  if (bLen == 0) {
-    return aLen;
-  }
+  float ldist = levenshteinDist(palavra1, tamanho_palavra1, palavra2, tamanho_palavra2);
 
-  size_t *cache = calloc(aLen, sizeof(size_t));
-  size_t aIndex = 0;
-  size_t bIndex = 0;
-  size_t aDist;
-  size_t bDist;
-  size_t res;
-  char code;
+  float lcoeff = ((tamanho_palavra1 + tamanho_palavra2) - ldist)/(tamanho_palavra1 + tamanho_palavra2);
 
-  // initialize the vector.
-  while (aIndex < aLen) {
-    cache[aIndex] = aIndex + 1;
-    aIndex++;
-  }
-
-  // Loop.
-  while (bIndex < bLen) {
-    code = b[bIndex];
-    res = aDist = bIndex++;
-    aIndex = SIZE_MAX;
-
-    while (++aIndex < aLen) {
-      bDist = code == a[aIndex] ? aDist : aDist + 1;
-      aDist = cache[aIndex];
-
-      cache[aIndex] = res = aDist > res ?
-				bDist > res ? res + 1 : bDist
-        :
-				bDist > aDist ? aDist + 1 : bDist;
-    }
-  }
-
-  free(cache);
-
-  return res;
+  return lcoeff;
 }
 
-double levenshtein(const char *a, const char *b) {
-  const size_t aLen = strlen(a);
-  const size_t bLen = strlen(b);
-	
-	const size_t levenshteinDist = levenshteinCalc(a, aLen, b, bLen);
+/*
+ * Função auxiliar que retorna um numero inteiro resultante da distancia de levenshtein.
+ */
+int levenshteinDist(const char *s, const int ls, const char *t, const int lt) {
 
-	float maiorTamanho = max(bLen, aLen);
-
-  return (maiorTamanho - levenshteinDist)/maiorTamanho;
-}
-
-int max(int n1, int n2) {
-	int res = 0;
-	if(n1 > n2) {
-		res = n1;
-	} else {
-		res = n2;
+	int d[ls + 1][lt + 1];
+ 
+	for (int i = 0; i <= ls; i++)
+		for (int j = 0; j <= lt; j++)
+			d[i][j] = -1;
+ 
+	int dist(int i, int j) {
+		if (d[i][j] >= 0) return d[i][j];
+ 
+		int x;
+		if (i == ls)
+			x = lt - j;
+		else if (j == lt)
+			x = ls - i;
+		else if (s[i] == t[j])
+			x = dist(i + 1, j + 1);
+		else {
+			x = dist(i + 1, j + 1);
+ 
+			int y;
+			if ((y = dist(i, j + 1)) < x) x = y;
+			if ((y = dist(i + 1, j)) < x) x = y;
+			x++;
+		}
+		return d[i][j] = x;
 	}
-
-	return res;
+	return dist(0, 0);
 }
 
+
+//////////////////
+// TESTE
+//////////////////
 int main(void) {
 	char word1[10];
 	scanf("%s", word1);
