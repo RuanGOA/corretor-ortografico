@@ -16,8 +16,11 @@ char **pegaPalavras (FILE *fp, int *n);
 char **pegaFrases (FILE *fp, int *n);
 void pegaTexto(FILE *arquivo, int *nPalavras, char **destino);
 
-int * verificaFrase(char **palavras, int tamanho_palavras, char const **dicionario, int tamanho_dicionario, int *palavras_verificadas);
-int verificaPalavra(char *palavra, char const **dicionario, int tamanho_dicionario);
+int * verificaFrase(char **palavras, int tamanho_palavras, char **dicionario, int tamanho_dicionario);
+int verificaPalavra(char *palavra, char **dicionario, int tamanho_dicionario);
+
+char ** sugerePalavras(char *token, char **dicionario, int tamanho_dicionario);
+int pos_menor_valor(float *arr, int tamanho);
 
 void liberaArray (char **palavras, int linhas);
 void agrupaFrases(char **frases, int nFrases, char *stringDestino);
