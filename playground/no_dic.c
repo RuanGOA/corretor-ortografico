@@ -8,17 +8,19 @@
         1 - se o token está no dicionario
         0 - se o token não está no dicionario
 */
-int * verificaFrase(char **palavras, int tamanho_palavras, char const **dicionario, int tamanho_dicionario, int *palavras_verificadas) {
+int * verificaFrase(char **palavras, int tamanho_palavras, char **dicionario, int tamanho_dicionario) {
+
+    int *tokens_verificados = malloc(sizeof(int) * tamanho_palavras);
 
     int achou;
     for(size_t i = 0; i < tamanho_palavras; i++) {
 
         achou = verificaPalavra(palavras[i], dicionario, tamanho_dicionario);
 
-        palavras_verificadas[i] = achou;
+        tokens_verificados[i] = achou;
     }
 
-    return palavras_verificadas;
+    return tokens_verificados;
 }
 
 /*
@@ -26,7 +28,7 @@ int * verificaFrase(char **palavras, int tamanho_palavras, char const **dicionar
         1 - a palavra existe no dicionario
         2 - a palavra nao existe no dicionario
 */
-int verificaPalavra(char *palavra, char const **dicionario, int tamanho_dicionario) {
+int verificaPalavra(char *palavra, char **dicionario, int tamanho_dicionario) {
 
     size_t j = 0, achou = 0;
     while(j < tamanho_dicionario && achou == 0) {
@@ -40,3 +42,24 @@ int verificaPalavra(char *palavra, char const **dicionario, int tamanho_dicionar
 
     return achou;
 }
+
+///////////////////////////////
+//TESTE
+///////////////////////////////
+/*
+int main(void) {
+
+    char *palavras[10] = {"seu", "joao", "foi", "na", "feira", "e", "trouxe", "a", "maior", "batata"};
+    size_t tamanho_palavras = sizeof(palavras)/sizeof(palavras[0]);
+
+    char *dicionario[9] = {"sua", "zeh", "joaninha", "feira", "a", "e", "mais", "joao", "joaozinho"};  
+    size_t tamanho_dicionario = sizeof(dicionario)/sizeof(dicionario[0]);
+
+    int *corrigidas = verificaFrase(palavras, tamanho_dicionario, dicionario, tamanho_dicionario);
+
+    for(int i = 0; i < tamanho_palavras; i++) {
+        printf("%d \n", corrigidas[i]);
+    }
+
+    return 0;
+}*/
