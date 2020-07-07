@@ -1,13 +1,10 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "funcoes.h"
 
 /*
  * Retorna um coeficiente da semelhança de palavras usando o algoritmo
  * "distancia de Levenshtein", e fazendo calculo de porcentagem.
  */
-float levenshtein(const char *palavra1, const char *palavra2) {
+float levenshtein(char *palavra1, char *palavra2) {
 
   const int tamanho_palavra1 = strlen(palavra1), tamanho_palavra2 = strlen(palavra2);
 
@@ -21,48 +18,41 @@ float levenshtein(const char *palavra1, const char *palavra2) {
 /*
  * Função auxiliar que retorna um numero inteiro resultante da distancia de levenshtein.
  */
-int levenshteinDist(const char *s, const int ls, const char *t, const int lt) {
+int levenshteinDist(char *s1, int s1len, char *s2, int s2len) {
+	int x, y, lastdiag, olddiag;
 
-	int d[ls + 1][lt + 1];
- 
-	for (int i = 0; i <= ls; i++)
-		for (int j = 0; j <= lt; j++)
-			d[i][j] = -1;
- 
-	int dist(int i, int j) {
-		if (d[i][j] >= 0) return d[i][j];
- 
-		int x;
-		if (i == ls)
-			x = lt - j;
-		else if (j == lt)
-			x = ls - i;
-		else if (s[i] == t[j])
-			x = dist(i + 1, j + 1);
-		else {
-			x = dist(i + 1, j + 1);
- 
-			int y;
-			if ((y = dist(i, j + 1)) < x) x = y;
-			if ((y = dist(i + 1, j)) < x) x = y;
-			x++;
-		}
-		return d[i][j] = x;
+    unsigned int column[s1len+1];
+
+    for (y = 1; y <= s1len; y++){
+        column[y] = y;
 	}
-	return dist(0, 0);
+
+    for (x = 1; x <= s2len; x++) {
+        column[0] = x;
+
+        for (y = 1, lastdiag = x-1; y <= s1len; y++) {
+            olddiag = column[y];
+            column[y] = MIN3(column[y] + 1, column[y-1] + 1, lastdiag + (s1[y-1] == s2[x-1] ? 0 : 1));
+
+            lastdiag = olddiag;
+        }
+    }
+
+    return(column[s1len]);
 }
 
 
 //////////////////
 // TESTE
 //////////////////
+/*
 int main(void) {
-	char word1[10];
+	char word1[COMP_MAX_PALAVRA];
 	scanf("%s", word1);
-	char word2[10];
+	char word2[COMP_MAX_PALAVRA];
 	scanf("%s", word2);
 
 	double res = levenshtein(word1, word2);
 
 	printf("%f \n", res);
-}
+}*/
