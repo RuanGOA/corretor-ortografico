@@ -19,30 +19,37 @@
     sugestoes[1:3] - para as sugestões de 
                      substituição
 */
-char *exibeMenuSelecao(char **sugestoes)
+char *exibeMenuSelecao(char *palavraOriginal,char **sugestoes)
 {
     int indiceSubstituicao = -1;
     while(indiceSubstituicao < 0 || indiceSubstituicao > 3)
     {
-        printf("Esta palavra parece estar incorreta: " RED_TEXT  "%s\n" RESET, sugestoes[0]);
+        printf("Esta palavra parece estar incorreta: " RED_TEXT  "%s\n" RESET, palavraOriginal);
         printf("Deseja substituí-la por:\n");
-        printf("[1] - %s ou\n", sugestoes[1]);
-        printf("[2] - %s ou\n", sugestoes[2]);
-        printf("[3] - %s ?\n", sugestoes[3]);
-        printf("Digite 0 para manter a palavra original (%s) \n", sugestoes[0]);
+        printf("[1] - %s ou\n", sugestoes[0]);
+        printf("[2] - %s ou\n", sugestoes[1]);
+        printf("[3] - %s ?\n", sugestoes[2]);
+        printf("Digite 0 para manter a palavra original (%s) \n", palavraOriginal);
         printf("> ");
         scanf("%d", &indiceSubstituicao);
     }
-
-    return sugestoes[indiceSubstituicao];
+    if(indiceSubstituicao == 0)
+    {
+        return palavraOriginal;
+    }else
+    {
+        return sugestoes[indiceSubstituicao - 1];
+    }
+    
+    
 }
 
 /* Teste */
 int main (void)
 {
-    char *palavras[4] = {"errada", "sugest1", "sugest2", "sugest3"};
+    char *palavras[3] = {"sugest1", "sugest2", "sugest3"};
 
-    char *correcao = exibeMenuSelecao(palavras);
+    char *correcao = exibeMenuSelecao("Original",palavras);
     // Não sei o que é esse % que aparece na saída, 
     // mas parece que não tem nada a ver com a palavra
     // então está funcionando normal
