@@ -1,6 +1,6 @@
 #include "funcoes.h"
 
-#define NAO_ENCONTRADO 0
+#define NAO_ENCONTRADO -1
 #define ENCONTRADO 1
 
 
@@ -140,58 +140,54 @@ int tokenizaTexto(char *texto, char **destino)
 	Retorna um array com 0 na mesma posição de palavras que não foram
 	encontradas no dicionário e 1 para para as palavras encontradas
 */
-int *buscaNoDicionario(char **palavras, int nPalavras , char **dicionario, int tamanhoDicionario)
+void buscaNoDicionario(char **palavras, int nPalavras , char **dicionario, int tamanhoDicionario, int *resultado)
 {
     int inicio = 0;
-	int *resultadoDasBuscas = NULL;
-    if (!(resultadoDasBuscas = calloc (nPalavras, sizeof(int)))) {
-        fprintf (stderr, "pegaPalavras() erro: memória virtual exaurida.\n");
-        return NULL;
-    }
+	int *resultadoDasBuscas;
+
 	//implementar busca binária
 	//strcmp(str1,str2)  1 para str1 > str2 | -1 para str1 < str2z
+    
 	for(size_t i = 0; i < nPalavras; ++i)
 	{  
-        printf("pal: %s, dic: %s, tamD: %d \n", *(palavras + i), *dicionario, tamanhoDicionario) ;
-		if(buscaBinariaString(*(palavras + i), dicionario, &inicio, &tamanhoDicionario) != NAO_ENCONTRADO)
+        printf("pal: %s, dic: %s, tamD: %d \n", *(palavras + i), *dicionario, tamanhoDicionario);
+
+		if(buscaBinariaString(*(palavras + i), dicionario, inicio, tamanhoDicionario) == NAO_ENCONTRADO)
 		{
 			resultadoDasBuscas[i] = ENCONTRADO;
 		} 
 	}
 
-
-    return resultadoDasBuscas;
-
-
 }
 
-int buscaBinariaString(char *palavra, char **dicionario, int *inicioDicionario, int *fimDicionario)
+int buscaBinariaString(char *palavra, char **dicionario, int inicioDicionario, int fimDicionario)
 {
-	int metadeDoDicionario = *fimDicionario / 2;
+	int metadeDoDicionario =  (fimDicionario/2) ;
+    int resultado = -1;
+
+    printf("iniDic: %d | metDict: %d | fimDict: %d \n", inicioDicionario, metadeDoDicionario, fimDicionario);
+    printf("palavra: %s , dict: %s , comp: %d \n \n", palavra, dicionario[metadeDoDicionario], strcmp(palavra, dicionario[metadeDoDicionario]));
+
+    if(strcmp(palavra, dicionario[metadeDoDicionario]) < 0)
+    {
+        resultado =  buscaBinariaString(palavra, dicionario, inicioDicionario,  metadeDoDicionario - 1);
+        return resultado;
+    }
+
+
+    if(strcmp(palavra, dicionario[metadeDoDicionario]) > 0)
+	{
+		resultado = buscaBinariaString(palavra, dicionario,  metadeDoDicionario + 1, fimDicionario);
+        return resultado;
+	}
     
-    //printf("iniDic: %d | metDict: %d | fimDict: %d \n", *inicioDicionario, metadeDoDicionario, *fimDicionario);
-    printf("palavra: %s , dict: %s , comp: %d \n",palavra, dicionario[metadeDoDicionario], strcmp(palavra, dicionario[metadeDoDicionario]));
 
 	if(strcmp(palavra, dicionario[metadeDoDicionario]) == 0)
 	{
 		return metadeDoDicionario;
 	}
-	else if(strcmp(palavra, dicionario[metadeDoDicionario]) > 1)
-	{
-        puts("essa linha\n");
-        *inicioDicionario = metadeDoDicionario + 1;
-		return buscaBinariaString(palavra, dicionario, inicioDicionario, fimDicionario);
-	}
-	else if(strcmp(palavra, dicionario[metadeDoDicionario]) < -1)
-    {
-        *fimDicionario = metadeDoDicionario - 1;
-        printf("inicio: %d | fim: %d \n", *inicioDicionario, *fimDicionario);
-        return buscaBinariaString(palavra, dicionario, inicioDicionario, fimDicionario);
-    }else{
-        return 0;
-    }
 
-	return 0;
+	return resultado;
 }
 
 

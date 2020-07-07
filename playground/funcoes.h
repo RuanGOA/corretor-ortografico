@@ -17,7 +17,7 @@ void pegaTexto(FILE *arquivo, int *nPalavras, char **destino);
 void liberaArray (char **palavras, int linhas);
 void agrupaFrases(char **frases, int nFrases, char *stringDestino);
 int tokenizaTexto(char *texto, char **destino);
-int *buscaNoDicionario(char **palavras, int nPalavras , char **dicionario, int tamanhoDicionario);
-int buscaBinariaString(char *palavra, char **dicionario, int *inicioDicionario, int *fimDicionario);
+void buscaNoDicionario(char **palavras, int nPalavras , char **dicionario, int tamanhoDicionario, int *resultado);
+int buscaBinariaString(char *palavra, char **dicionario, int inicioDicionario, int fimDicionario);
 
 #endif

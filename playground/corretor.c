@@ -45,10 +45,12 @@ int main(int argc, char *argv[]){
     char *palavras[QUANT_MAX_PALAVRAS];
     int quantPalavras = tokenizaTexto(textoCompleto, palavras);
 
+
     /* Ler dicionário  */  
     FILE *arqDicionario = fopen(argv[2], "r");
     char **dicionario;
     int nPalavrasDic = 0;
+
 
     if (!arqDicionario) { /* valida a abertura do arquivo */
         fprintf (stderr, "erro: abertura do arquivo falhou.\n");
@@ -65,9 +67,12 @@ int main(int argc, char *argv[]){
     printf("%s \n", dicionario[1]);
     printf("%s \n", dicionario[2]);  
   
+    int resultadoBuscaDic[QUANT_MAX_PALAVRAS] = {0}; 
+    buscaNoDicionario(palavras, quantPalavras, dicionario, nPalavrasDic, resultadoBuscaDic);
 
     fclose(arqDicionario);    
     liberaArray(dicionario,nPalavrasDic);
+
 
     return EXIT_SUCCESS;
 }
