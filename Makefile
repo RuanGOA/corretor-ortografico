@@ -16,9 +16,8 @@ all:
 
 	gcc $(APPS)/main.c $(OBJ)/*.o -I $(INCLUDE) -o $(BIN)/main
 
-
 run: 
-	$(BIN)/main ./data/textoTeste.txt ./data/dicionario.txt
+	$(BIN)/main ./data/texto.txt 
 
 
 clean:

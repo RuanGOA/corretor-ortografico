@@ -35,7 +35,8 @@ int main(int argc, char *argv[]){
         fgets(textoCompleto, comprimentoDaLista, stdin);
     }
 
-    printf("Texto recebido:\n%s\n", textoCompleto);
+    printf("\n" RED_BACKGROUND "Texto recebido:" RESET "\n");
+    printf("%s\n\n", textoCompleto);
     
 
     /* Tokenizar texto */
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]){
 
 
     /* Ler dicionário  */  
-    FILE *arqDicionario = fopen(argv[2], "r");
+    FILE *arqDicionario = fopen("data/dicionario.txt", "r");
     char **dicionario;
     int nPalavrasDic = 0;
 
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    printf("\n" RED_BACKGROUND "Tamanho do Dicionário: %d" RESET "\n", nPalavrasDic);
+    printf(RED_BACKGROUND "Tamanho do Dicionário: %d" RESET "\n", nPalavrasDic);
     printf(RED_BACKGROUND "Exemplos do dicionário: " RESET "\n");
     printf("%s \n", dicionario[243]); 
     printf("%s \n", dicionario[69692]);
