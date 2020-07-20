@@ -1,13 +1,14 @@
 #include "constantes.h"
 #include "dicionario.h"
 #include "menu.h"
-#include "pre_processamento.h"
+#include "preProcessamento.h"
 #include "util.h"
 
 int main(int argc, char *argv[]){
 
     char textoCompleto[QUANT_MAX_CARACTERES];
 
+    /* Ler dos dados */
     if(argc > 1){
 
         FILE *arqTexto = fopen (argv[1], "r");
@@ -47,8 +48,8 @@ int main(int argc, char *argv[]){
     char **dicionario;
     int nPalavrasDic = 0;
 
-
-    if (!arqDicionario) { /* valida a abertura do arquivo */
+    /* valida a abertura do arquivo */
+    if (!arqDicionario) { 
         fprintf (stderr, "erro: abertura do arquivo falhou.\n");
         return 1;
     }
@@ -59,11 +60,37 @@ int main(int argc, char *argv[]){
     }
 
     printf("\n" RED_BACKGROUND "Tamanho do Dicionário: %d" RESET "\n", nPalavrasDic);
-    printf("%s \n", dicionario[0]); 
-    printf("%s \n", dicionario[1]);
-    printf("%s \n", dicionario[2]);  
+    printf(RED_BACKGROUND "Exemplos do dicionário: " RESET "\n");
+    printf("%s \n", dicionario[243]); 
+    printf("%s \n", dicionario[69692]);
+    printf("%s \n", dicionario[2345]);  
+    printf("\n---------------------\n\n");
   
-    int resultadoBuscaDic[QUANT_MAX_PALAVRAS] = {0}; 
+    //int resultadoBuscaDic[QUANT_MAX_PALAVRAS] = {0};  
+
+    char resultado[300];
+    strcpy(resultado, "");
+
+    char **sugestoesCache;
+    char *escolhaCache;
+    int *estaoNoDic = verificaFrase(palavras, quantPalavras, dicionario, nPalavrasDic);
+    for(size_t i = 0; i < quantPalavras; i++) {
+
+        if(estaoNoDic[i] == 1) {
+            sugestoesCache = sugerePalavras(palavras[i], dicionario, nPalavrasDic);
+            
+            escolhaCache = exibeMenuSelecao(palavras[i], sugestoesCache);
+
+        } else {
+            escolhaCache = palavras[i];
+
+        }
+        
+        strcat(resultado, escolhaCache);
+        strcat(resultado, " ");
+    }
+
+    printf(RED_BACKGROUND "Resultado: " RESET RED_TEXT "\n%s\n\n" RESET, resultado);
 
     fclose(arqDicionario);    
     liberaArray(dicionario,nPalavrasDic);
