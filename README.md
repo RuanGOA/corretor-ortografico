@@ -2,7 +2,7 @@
 
 Projeto feito para o curso de C, ministrado por Eanes Torres durante a pausa nas aulas da UFCG.
 
-## **TaskList**
+## **Afazeres**
 
 - [x] Verificar argumentos na linha de comando
 
@@ -15,27 +15,28 @@ Projeto feito para o curso de C, ministrado por Eanes Torres durante a pausa nas
 
 - [x] Carregar dicionário de palavras corretas
 
-* Carregar TODO o dicionário
-* Carregar apenas parte do dicionário
+- [x] Passar pelo array de palavras verificando se a palavra está no dicionário
 
-- [ ] Passar pelo array de palavras verificando se a palavra está no dicionário usando busca binária
-
-* Se estiver, passa para a próxima
-* Se não, jogue em um array de palavras erradas
+* Colocar um array o resultado de cada palavra
 
 - [x] Implementar uma função para Levenshtein, retornando um indice de similaridade
 
-- [ ] Criar uma fila de prioridade, usando o coeficiente obtidos
+- [x] Selecionar as 3 melhores palavras
 
-* Usar os 3 maiores coeficientes >= *n.float*
-* Testar o *n.float*
+- [x] Criar função "menu", para escolha das palavras
 
-- [ ] Criar função "menu", para escolha das palavras
+- [x] Colocar as palavras escolhidas e as novas palavras em uma nova string, e exibir após
 
-- [ ] Colocar as palavras escolhidas e as novas palavras em uma nova string, e exibir após
+---
+
+## Uso
+
+Para compilar o programa, use o comando **make** na raiz do projeto:
+
+Para executar o programa usando arquivo de texto como parâmetro, use **make run** com o arquivo a ser usado dentro de */data* com o nome *texto.txt*
+
+Para executar o programa usando um texto como input, execute **./main** no diretório */bin*
 
 ---
 
 > [Maurício Marques](https://github.com/marques596), [Ruan Gomes](https://github.com/ruanGOA)
-
-
