@@ -16,7 +16,7 @@ char ** sugerePalavras(char *token, char **dicionario, int tamanho_dicionario);
     Função auxiliar. Verifica num array de floats passado como parametro,
     a posição do menor valor, e retorna-o.
 */
-int pos_menor_valor(float *arr, int tamanho);
+int posMenorValor(float *arr, int tamanho);
 
 
 /*  
