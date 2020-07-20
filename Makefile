@@ -9,7 +9,7 @@ SRC 	= ./src
 
 # Comando executado quando se usa make sem passar nenhum argumento
 all:
-	gcc -c $(SRC)/pre_processamento.c -I $(INCLUDE) -o $(OBJ)/pre_processamento.o
+	gcc -c $(SRC)/preProcessamento.c -I $(INCLUDE) -o $(OBJ)/preProcessamento.o
 	gcc -c $(SRC)/util.c -I $(INCLUDE) -o $(OBJ)/util.o
 	gcc -c $(SRC)/dicionario.c -I $(INCLUDE) -o $(OBJ)/dicionario.o
 	gcc -c $(SRC)/menu.c -I $(INCLUDE) -o $(OBJ)/menu.o
@@ -18,7 +18,7 @@ all:
 
 
 run: 
-	$(BIN)/main ./textoTeste.txt ./dicionario.txt
+	$(BIN)/main ./data/textoTeste.txt ./data/dicionario.txt
 
 
 clean:
