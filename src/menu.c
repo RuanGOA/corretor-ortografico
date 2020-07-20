@@ -33,12 +33,14 @@ char *exibeMenuSelecao(char *palavraOriginal,char **sugestoes)
     {
         printf("Esta palavra parece estar incorreta: " RED_TEXT  "%s\n" RESET, palavraOriginal);
         printf("Deseja substituí-la por:\n");
-        printf("[1] - %s ou\n", sugestoes[0]);
-        printf("[2] - %s ou\n", sugestoes[1]);
-        printf("[3] - %s ?\n", sugestoes[2]);
-        printf("Digite 0 para manter a palavra original (%s) \n", palavraOriginal);
+        printf("[1] - %s \n", sugestoes[0]);
+        printf("[2] - %s \n", sugestoes[1]);
+        printf("[3] - %s \n", sugestoes[2]);
+        printf("[0] - Manter a palavra original (%s) \n", palavraOriginal);
+        printf("Digite o número da sua escolha: \n");
         printf("> ");
         scanf("%d", &indiceSubstituicao);
+        printf("\n");
     }
     if(indiceSubstituicao == 0)
     {

@@ -60,7 +60,7 @@ char ** sugerePalavras(char *token, char **dicionario, int tamanho_dicionario) {
 
             coef = 0;
 
-            menor = pos_menor_valor(coef_sugestoes, 3);
+            menor = posMenorValor(coef_sugestoes, 3);
         }
     }
 
@@ -72,7 +72,7 @@ char ** sugerePalavras(char *token, char **dicionario, int tamanho_dicionario) {
     Função auxiliar. Verifica num array de floats passado como parametro,
     a posição do menor valor, e retorna-o.
 */
-int pos_menor_valor(float *arr, int tamanho) {
+int posMenorValor(float *arr, int tamanho) {
     int pos_menor = 0;
     for(size_t i = 0; i < tamanho; i++) {
         if(arr[pos_menor] > arr[i]) {
